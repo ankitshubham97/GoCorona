@@ -36,7 +36,7 @@ import java.util.Scanner;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     private HeatmapTileProvider mProvider;
     private TileOverlay mOverlay;
 
@@ -58,26 +58,27 @@ public class HomeFragment extends Fragment {
         homeViewModel =
           ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+//        final TextView textView = root.findViewById(R.id.text_home);
+//        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                textView.setText(s);
+//            }
+//        });
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
-                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+                mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
 
                 mMap.clear(); //clear old markers
                 CameraPosition googlePlex = CameraPosition.builder()
-                  .target(new LatLng(-37.826,147.636))
+                  .target(new LatLng(12.9522902,77.5830063))
                   .zoom(10)
                   .build();
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 10000, null);
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null);
 
 
                 ArrayList<LatLng> list = new ArrayList<LatLng>();
@@ -107,7 +108,7 @@ public class HomeFragment extends Fragment {
 //                }
 
                 // Create a heat map tile provider, passing it the latlngs of the police stations.
-                mProvider = new HeatmapTileProvider.Builder()
+                mProvider = new HeatmapTileProvider.Builder().maxIntensity(5)
                   .data(list)
                   .build();
                 // Add a tile overlay to the map, using the heat map tile provider.

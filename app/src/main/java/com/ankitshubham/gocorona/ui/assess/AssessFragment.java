@@ -124,6 +124,8 @@ public class AssessFragment extends Fragment {
                     radioButton4.setVisibility(View.GONE);
                     textView.setText("The probability of you having Covid-19 is 15%.");
                     imageButton2.setVisibility(View.GONE);
+                    counter = 0;
+                    return;
                 }
                 try{
                     JSONArray array = new JSONArray(json);
